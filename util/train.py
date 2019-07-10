@@ -13,12 +13,22 @@ def train(net, train_features, train_labels, test_features, test_labels,
     trainer = gluon.Trainer(net.collect_params(), 'adam', {
         'learning_rate': learning_rate, 'wd': weight_decay})
     for epoch in range(num_epochs):
-        if epoch > 80:
-            learning_rate /= 10.
-            weight_decay = 0.001
-        if epoch > 200:
-            learning_rate /= 10.
-            weight_decay = 0.1
+        if epoch == 100:
+            learning_rate /= 2.
+        # if epoch == 100:
+        #     learning_rate /= 2.
+        # if epoch == 200:
+        #     learning_rate /= 2.
+        # if epoch == 300:
+        #     learning_rate /= 2.
+        #
+        # if epoch == 350:
+        #     learning_rate /= 2.
+        # if epoch == 380:
+        #     learning_rate /= 2.
+        # if epoch == 450:
+        #     learning_rate /= 10.
+        trainer.set_learning_rate(learning_rate)
         for X, y in train_iter:
             with autograd.record():
                 l = obj_loss(net(X), y)
