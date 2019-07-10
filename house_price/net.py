@@ -6,11 +6,12 @@ def get_net(drop_prob=0.5):
     net.add(
         # nn.Dropout(drop_prob),
         nn.Dense(512, activation='relu'),
-        nn.Dropout(drop_prob),
+        nn.Dropout(0.5),
         nn.Dense(128, activation='relu'),
+        nn.Dropout(0.5),
+        nn.Dense(64, activation='relu'),
         nn.Dropout(drop_prob),
-        # nn.Dense(64, activation='relu'),
-        # nn.Dropout(drop_prob),
+        nn.Dense(32, activation='relu'),
         nn.Dense(1)
     )
     net.initialize(init.Xavier())

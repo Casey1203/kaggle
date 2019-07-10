@@ -13,10 +13,16 @@ def train(net, train_features, train_labels, test_features, test_labels,
     trainer = gluon.Trainer(net.collect_params(), 'adam', {
         'learning_rate': learning_rate, 'wd': weight_decay})
     for epoch in range(num_epochs):
+        # if epoch == 10:
+        #     learning_rate /= 2.
+        if epoch == 20:
+            learning_rate /= 2.
+        if epoch == 30:
+            learning_rate /= 2.
+        if epoch == 50:
+            learning_rate /= 2.
         if epoch == 100:
             learning_rate /= 2.
-        # if epoch == 100:
-        #     learning_rate /= 2.
         # if epoch == 200:
         #     learning_rate /= 2.
         # if epoch == 300:

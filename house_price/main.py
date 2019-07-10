@@ -6,10 +6,10 @@ from mxnet.gluon import loss as gloss
 from house_price.data_process import *
 from util.tune_param import get_k_fold_data
 
-num_epochs = 150
-lr = 0.01
+num_epochs = 100
+lr = 0.003
 weight_decay = 5000
-batch_size = 32
+batch_size = 16
 
 
 def train_and_pred(train_features, test_features, train_labels, test_data,
@@ -27,6 +27,9 @@ def train_and_pred(train_features, test_features, train_labels, test_data,
 
 def k_fold(k, X_train, y_train, num_epochs,
            learning_rate, weight_decay, batch_size):
+    param_setting = 'num_epoch: {}, lr: {}, weight_decay: {}, batch_size: {}'.format(
+        str(num_epochs), str(lr), str(weight_decay), str(batch_size))
+    print(param_setting)
     train_l_sum, valid_l_sum = 0, 0
     train_l_list, valid_l_list = [], []
     param_df = pd.DataFrame()
@@ -48,7 +51,7 @@ def k_fold(k, X_train, y_train, num_epochs,
               % (i, train_ls[-1], valid_ls[-1]))
         train_l_list.append(train_ls)
         valid_l_list.append(valid_ls)
-
+    print(net.collect_params())
     multiple_semilogy(
         [range(1, num_epochs + 1)] * k, train_l_list, ['epochs']*k, ['rmse']*k,
         [range(1, num_epochs + 1)] * k, valid_l_list, ['train', 'valid'] * k
