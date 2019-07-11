@@ -15,14 +15,14 @@ def train(net, train_features, train_labels, test_features, test_labels,
     for epoch in range(num_epochs):
         # if epoch == 10:
         #     learning_rate /= 2.
-        if epoch == 20:
-            learning_rate /= 2.
-        if epoch == 30:
-            learning_rate /= 2.
-        if epoch == 50:
-            learning_rate /= 2.
-        if epoch == 100:
-            learning_rate /= 2.
+        # if epoch == 20:
+        #     learning_rate /= 2.
+        # if epoch == 30:
+        #     learning_rate /= 2.
+        # if epoch == 50:
+        #     learning_rate /= 2.
+        # if epoch == 100:
+        #     learning_rate /= 2.
         # if epoch == 200:
         #     learning_rate /= 2.
         # if epoch == 300:
@@ -34,13 +34,15 @@ def train(net, train_features, train_labels, test_features, test_labels,
         #     learning_rate /= 2.
         # if epoch == 450:
         #     learning_rate /= 10.
-        trainer.set_learning_rate(learning_rate)
+        # trainer.set_learning_rate(learning_rate)
         for X, y in train_iter:
             with autograd.record():
                 l = obj_loss(net(X), y)
             l.backward()
             trainer.step(batch_size)
         train_ls.append(eval_metric(net, train_features, train_labels))
+        if epoch != 0 and epoch % 50 == 0:
+            print('epoch: {}, train rmse: {}'.format(epoch, train_ls[-1]))
         if test_labels is not None:
             test_ls.append(eval_metric(net, test_features, test_labels))
     return train_ls, test_ls
