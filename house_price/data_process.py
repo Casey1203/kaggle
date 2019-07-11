@@ -48,6 +48,9 @@ all_features = pd.get_dummies(all_features, dummy_na=True) # 会生成“列名_
 print(all_features.shape)
 feature_list = list(set(all_features.columns.tolist()) - set(remove_feature_list))
 all_features = all_features[feature_list]
+# all_features = all_features.apply(
+#     lambda x: (x - x.mean()) / (x.std()))
+# all_features = all_features.subtract(all_features.mean())
 print(all_features.shape)
 
 n_train = train_data.shape[0]

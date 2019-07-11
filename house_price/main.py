@@ -6,10 +6,10 @@ from mxnet.gluon import loss as gloss
 from house_price.data_process import *
 from util.tune_param import get_k_fold_data
 
-num_epochs = 100
-lr = 0.003
-weight_decay = 5000
-batch_size = 16
+num_epochs = 150
+lr = 0.05
+weight_decay = 10000
+batch_size = 64
 
 
 def train_and_pred(train_features, test_features, train_labels, test_data,
