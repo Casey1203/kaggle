@@ -5,7 +5,7 @@ from mxnet import autograd, gluon
 from copy import deepcopy
 
 def train(net, train_features, train_labels, test_features, test_labels,
-          num_epochs, learning_rate, weight_decay, batch_size, obj_loss, eval_metric):
+          num_epochs, learning_rate, weight_decay, batch_size, obj_loss, eval_metric, epoch_verbose=50):
     train_ls, test_ls = [], []
     train_iter = gdata.DataLoader(gdata.ArrayDataset(
         train_features, train_labels), batch_size, shuffle=True)
@@ -13,10 +13,10 @@ def train(net, train_features, train_labels, test_features, test_labels,
     trainer = gluon.Trainer(net.collect_params(), 'adam', {
         'learning_rate': learning_rate, 'wd': weight_decay})
     for epoch in range(num_epochs):
-        # if epoch == 10:
-        #     learning_rate /= 2.
-        # if epoch == 20:
-        #     learning_rate /= 2.
+        if epoch == 10:
+            learning_rate /= 10.
+        if epoch == 20:
+            learning_rate /= 2.
         # if epoch == 30:
         #     learning_rate /= 2.
         if epoch == 50:
@@ -42,7 +42,7 @@ def train(net, train_features, train_labels, test_features, test_labels,
             trainer.step(batch_size)
         preds = net(train_features)
         train_ls.append(eval_metric(preds, train_labels))
-        if epoch != 0 and epoch % 50 == 0:
+        if epoch != 0 and epoch % epoch_verbose == 0:
             print('epoch: {}, train rmse: {}'.format(epoch, train_ls[-1]))
         if test_labels is not None:
             test_preds = net(test_features)
