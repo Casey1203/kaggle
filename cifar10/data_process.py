@@ -2,6 +2,7 @@ import numpy as np
 import mxnet as mx
 from mxnet import nd, image
 import gc
+import pickle
 
 def save_batch(data_path, batch_size, data_size=300000):
     id_list = np.arange(1, data_size+1).tolist()
@@ -16,14 +17,15 @@ def save_batch(data_path, batch_size, data_size=300000):
                 batch_img = nd.concatenate([batch_img, img])
             else:
                 batch_img = img
+        batch_img = batch_img.asnumpy()
         print('start saving batch_%s' % batch_num)
-        nd.save('batch_%s' % batch_num, batch_img)
+        pickle.dump(batch_img, 'batch_%s.pkl' % batch_num)
         print('complete saving batch_%s' % batch_num)
         batch_img = None
         gc.collect()
         batch_num += 1
 
-batch_size = 3000
+batch_size = 10000
 data_path = '/home/casey/test/'
 data_size = 300000
 save_batch(data_path, batch_size, data_size)
