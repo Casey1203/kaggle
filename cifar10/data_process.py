@@ -6,9 +6,9 @@ import gc
 def save_batch(data_path, batch_size, data_size=300000):
     id_list = np.arange(1, data_size+1).tolist()
     batch_num = 0
+    batch_img = None
     for i in range(0, data_size, batch_size):
         batch_list = id_list[i: min(i + batch_size, data_size)]
-        batch_img = None
         for j in batch_list:
             img = image.imread(data_path + '%s.png' % j)
             img = img.reshape(1, 3, 32, 32)
@@ -17,9 +17,9 @@ def save_batch(data_path, batch_size, data_size=300000):
             else:
                 batch_img = img
         print('start saving batch_%s' % batch_num)
-        nd.save('batch_%s' % i, batch_img)
+        nd.save('batch_%s' % batch_num, batch_img)
         print('complete saving batch_%s' % batch_num)
-        del batch_img
+        batch_img = None
         gc.collect()
         batch_num += 1
 
